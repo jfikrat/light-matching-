@@ -13,6 +13,8 @@
     "next": "14.2.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "openai": "^4.0.0"
+    "openai": "^4.0.0",
+    "@google/generative-ai": "^0.21.0",
+    "@fal-ai/client": "^1.0.0"
   }
 }

@@ -1,0 +1,205 @@
+/* Design tokens — light and dark tuned for an Apple-like aesthetic */
+:root {
+  --bg: #f5f7fb;
+  --bg-gradient: radial-gradient(1200px 500px at 50% -20%, #ffffff 20%, #eef2f9 60%, #e9eef8 100%);
+  --surface: #ffffff;
+  --surface-2: #f7f8fb;
+  --text: #0b1220;
+  --muted: #5b6474;
+  --border: rgba(10, 18, 32, 0.1);
+  --accent: #0a84ff; /* macOS blue */
+  --accent-pressed: #0066cc;
+  --ring: rgba(10, 132, 255, 0.35);
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05);
+  --shadow-md: 0 6px 24px rgba(16, 24, 40, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b0e14;
+    --bg-gradient: radial-gradient(1200px 500px at 50% -20%, #0f131a 20%, #0b0e14 60%, #0b0e14 100%);
+    --surface: #12161f;
+    --surface-2: #0f141c;
+    --text: #eef2ff;
+    --muted: #9aa3b2;
+    --border: rgba(255, 255, 255, 0.08);
+    --accent: #0a84ff;
+    --accent-pressed: #2a7be8;
+    --ring: rgba(10, 132, 255, 0.45);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+    --shadow-md: 0 8px 28px rgba(0, 0, 0, 0.45);
+  }
+}
+
+/* Base */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  color: var(--text);
+  background: var(--bg);
+  background-image: var(--bg-gradient);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Layout */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 20px 64px;
+}
+
+.title {
+  font-size: clamp(28px, 4.2vw, 40px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+}
+
+.subtitle {
+  margin: 0 0 20px;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+/* Card */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
+  padding: 20px;
+}
+
+@supports (backdrop-filter: blur(8px)) {
+  .card.translucent {
+    background: color-mix(in srgb, var(--surface) 82%, transparent);
+    backdrop-filter: saturate(140%) blur(10px);
+    border: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
+  }
+}
+
+.card + .card { margin-top: 16px; }
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px 16px;
+}
+
+@media (min-width: 860px) {
+  .grid-2 { grid-template-columns: 1fr 1fr; }
+}
+
+/* Fields */
+.field { display: grid; gap: 8px; }
+.label { font-size: 13px; color: var(--muted); }
+
+input[type="text"], input[type="number"], select, input[type="file"]::-webkit-file-upload-button {
+  font: inherit;
+}
+
+input[type="text"], input[type="number"], select {
+  width: 100%;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  color: var(--text);
+  outline: none;
+  transition: border-color .2s, box-shadow .2s, background .2s;
+}
+
+input[type="text"]:focus, input[type="number"]:focus, select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--ring);
+}
+
+/* Drop zone */
+.drop-zone {
+  position: relative;
+  border: 1.5px dashed color-mix(in srgb, var(--border) 70%, transparent);
+  background: color-mix(in srgb, var(--surface-2) 80%, transparent);
+  border-radius: 14px;
+  padding: 16px;
+  transition: border-color .2s, background .2s, transform .2s;
+}
+.drop-zone.dragover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--surface-2) 88%, var(--accent) 6%);
+}
+.drop-zone .hint { color: var(--muted); font-size: 12px; }
+.thumb {
+  width: 96px; height: 96px; border-radius: 10px; object-fit: cover;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Buttons */
+.actions { display: flex; align-items: center; gap: 10px; }
+button, .btn {
+  -webkit-user-select: none; user-select: none;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: transform .06s ease, box-shadow .2s, background .2s, border-color .2s;
+}
+button:hover, .btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+button:active, .btn:active { transform: translateY(0); }
+button:focus-visible, .btn:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--ring); border-color: var(--accent); }
+
+.btn-primary, button[type="submit"] {
+  background: linear-gradient(180deg, #0a84ff, #0a7ef5);
+  color: white;
+  border-color: color-mix(in srgb, #0a84ff 70%, #000 30%);
+}
+.btn-primary:hover, button[type="submit"]:hover { background: linear-gradient(180deg, #3598ff, #0a7ef5); }
+.btn-primary:active, button[type="submit"]:active { background: #0a7ef5; }
+
+/* Sections */
+.section-title { font-size: 18px; margin: 28px 0 12px; font-weight: 700; letter-spacing: -0.01em; }
+.muted { color: var(--muted); }
+
+/* Results grid */
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+.image-card {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+}
+.image-card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; cursor: zoom-in; }
+.image-card .caption {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 10px; font-size: 12px; color: var(--muted);
+}
+.image-card .btn { padding: 8px 12px; font-size: 12px; }
+
+/* Fullscreen viewer */
+.viewer {
+  position: fixed; inset: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: center; padding: 16px;
+  background: rgba(0,0,0,.86);
+}
+.viewer img {
+  max-width: 95vw; max-height: 95vh; object-fit: contain; border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+.viewer-actions { position: fixed; top: 14px; right: 14px; display: flex; gap: 8px; }
+.viewer-actions .btn { padding: 8px 12px; font-size: 12px; }
+
+/* Prompts list */
+.list { padding-left: 18px; }
+.list li { margin: 8px 0; color: var(--text); }
